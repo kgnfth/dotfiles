@@ -18,4 +18,6 @@ ENV USER test
 
 ENV PATH="/home/test/bin:${PATH}"
 
+RUN sudo apt update
+
 WORKDIR /home/test/dotfiles
