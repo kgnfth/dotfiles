@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# vim: set filetype=zsh
 
 function cmd_path () {
     if [[ ${ZSH_VERSION} ]]; then
@@ -12,10 +13,34 @@ function cmd_path () {
 if cmd_path colorls ; then
     LS_OPTS="--color=always --long --sort-dirs --git-status"
     alias ls="colorls ${LS_OPTS}"
+    alias lt="ls -t --reverse"
+    alias la="ls --almost-all"
 else
     LS_OPTS="--color=auto --group-directories-first"
     alias ls="ls ${LS_OPTS}"
+    alias lt="ls -ltrh"
+    alias la="ls -A"
 fi
+alias ll='ls'
+
+alias grepi="grep -i"
+alias vim="vim -O"
+
+# git
+alias ggrep="git grep -n -I --break --heading -B0 -A0"
+alias ggrepi="ggrep --ignore-case"
+alias gu="git stash && git pull && git stash pop || true"
+
+# docker
+docker-clean() {
+    docker rm -f $(docker ps -qa) && docker volume rm $(docker volume ls -q)
+}
+
+# aws
+alias aws="aws --no-cli-pager"
+
+# tldr
+alias tldr="tldr --theme=base16"
 
 # z with fzf
 unalias z 2> /dev/null

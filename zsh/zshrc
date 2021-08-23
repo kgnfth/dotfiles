@@ -1,3 +1,5 @@
+# vim: foldmethod=marker
+# Oh-My-Zsh {{{1
 export ZSH="/home/$USER/.oh-my-zsh"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -13,13 +15,16 @@ plugins=(
     fast-syntax-highlighting
     git
     golang
+    httpie
     gpg-agent
     npm
+    rvm
+    vi-mode
+    tmux
     you-should-use
     z
     zsh-autosuggestions
     zsh-completions
-    rvm
     fzf-tab # fzf-tab should be the last plugin to bind "^I"
 )
 
@@ -31,6 +36,27 @@ source ~/dotfiles/zsh/zshopt
 # Load oh-my-zsh
 source "${ZSH}/oh-my-zsh.sh"
 
+# ZSH {{{1
+# Bind C+Space to accept the current suggestion
+bindkey '^ ' autosuggest-accept
+
+# Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
+export KEYTIMEOUT=1
+
+# Set the default umask
+umask 022
+
+# OSTYPE specific settings
+case "${OSTYPE}" in
+    linux*)
+        if (( $+commands[setxkbmap] )); then
+            setxkbmap -option caps:escape_shifted_capslock
+            setxkbmap -option altwin:swap_lalt_lwin
+        fi
+        ;;
+    *) ;;
+esac
+
 # Environment variables {{{2
 # Add more dirs to PATH
 if [[ ! "$PATH" == *:.* ]]; then
@@ -38,13 +64,23 @@ if [[ ! "$PATH" == *:.* ]]; then
 fi
 
 # Set the system-wide editor
-export EDITOR=nano
+export EDITOR=nvim
 
 # Set XDG_CONFIG_HOME
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 # Set the GPG_TTY to the current TTY
 export GPG_TTY=$TTY
+
+# Golang
+export GOPATH="${HOME}/go"
+if [[ ! "$PATH" == */usr/local/go/bin* ]]; then
+    export PATH="${PATH}:/usr/local/go/bin:${GOPATH}/bin"
+fi
+
+# Node Version Manager {{{2
+export NVM_DIR="${HOME}/.nvm"
+test -f "${NVM_DIR}/nvm.sh" && source "${NVM_DIR}/nvm.sh";
 
 # Ruby Version Manager {{{2
 export RVM_DIR="${HOME}/.rvm"
@@ -95,6 +131,3 @@ zstyle ':fzf-tab:*' insert-space false
 test -f ~/.fzf.zsh && source ~/.fzf.zsh
 
 # }}}
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"

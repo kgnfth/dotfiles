@@ -1,3 +1,4 @@
+# vim: foldmethod=marker
 # Main Colors {{{1
 unrecognized_file: lightgray
 recognized_file:   white

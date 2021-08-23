@@ -4,7 +4,7 @@
 help: ## Display help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: git pkg bat fzf rvm ruby zsh ohmyzsh colorls ## Install and configure everything (default)
+all: pkg git tig bat tmux fzf zsh ohmyzsh rvm ruby colorls nvm node go lua tree-sitter neovim ## Install and configure everything (default)
 
 .PHONY: pkg-install
 pkg-install: ## Install Ubuntu packages
@@ -24,6 +24,17 @@ git-configure: ## Configure git
 .PHONY: git
 git: git-install git-configure ## git-install git-configure
 
+.PHONY: tig-install
+tig-install: ## Install tig
+	@./scripts/tig.sh install
+
+.PHONY: tig-configure
+tig-configure: ## Configure tig
+	@./scripts/tig.sh configure
+
+.PHONY: tig
+tig: tig-install tig-configure ## tig-install tig-configure
+
 .PHONY: bat-install
 bat-install: ## Install bat
 	@./scripts/bat.sh install
@@ -35,12 +46,30 @@ bat-configure: ## Configure bat
 .PHONY: bat
 bat: bat-install bat-configure ## bat-install bat-configure
 
+.PHONY: tmux-install
+tmux-install: ## Install tmux
+	@./scripts/tmux.sh install
+
+.PHONY: tmux-configure
+tmux-configure: ## Configure tmux
+	@./scripts/tmux.sh configure
+
+.PHONY: tmux
+tmux: tmux-install tmux-configure ## tmux-install tmux-configure
+
 .PHONY: fzf-install
 fzf-install: ## Install fzf
 	@./scripts/fzf.sh install
 
 .PHONY: fzf
 fzf: fzf-install ## fzf-install
+
+.PHONY: gnome-terminal-configure
+gnome-terminal-configure: ## Install a few themes for gnome-terminal
+	@./scripts/gnome-terminal.sh configure
+
+.PHONY: gnome-terminal
+gnome-terminal: gnome-terminal-configure ## gnome-terminal-configure
 
 .PHONY: zsh-install
 zsh-install: ## Install zsh
@@ -78,6 +107,20 @@ ruby-install: ## Install ruby using rm
 .PHONY: ruby
 ruby: ruby-install ## ruby-install
 
+.PHONY: nvm-install
+nvm-install: ## Install nvm
+	@./scripts/nvm.sh install
+
+.PHONY: nvm
+nvm: nvm-install ## nvm-install
+
+.PHONY: node-install
+node-install: ## Install node using nvm
+	@./scripts/node.sh install
+
+.PHONY: node
+node: node-install ## node-install
+
 .PHONY: colorls-install
 colorls-install: ## Install colorls
 	@./scripts/colorls.sh install
@@ -88,3 +131,46 @@ colorls-configure: ## Configure colorls
 
 .PHONY: colorls
 colorls: colorls-install colorls-configure ## colorls-install colorls-configure
+
+.PHONY: go-install
+go-install: ## Install golang
+	@./scripts/go.sh install
+
+.PHONY: go
+go: go-install ## go-install
+
+.PHONY: lua-install
+lua-install: ## Install luarocks
+	@./scripts/lua.sh install
+
+.PHONY: lua
+lua: lua-install ## lua-install
+
+.PHONY: neovim-install
+neovim-install: ## Install neovim
+	@./scripts/neovim.sh install
+
+.PHONY: neovim-configure
+neovim-configure: ## Configure neovim
+	@./scripts/neovim.sh configure
+
+.PHONY: neovim
+neovim: neovim-install neovim-configure ## neovim-install neovim-configure
+
+.PHONY: neovim-nightly-install
+neovim-nightly-install: ## Install neovim (nightly build)
+	@./scripts/neovim-nightly.sh install
+
+.PHONY: neovim-nightly-configure
+neovim-nightly-configure: ## Configure neovim (nightly build)
+	@./scripts/neovim-nightly.sh configure
+
+.PHONY: neovim-nightly
+neovim-nightly: neovim-nightly-install neovim-nightly-configure ## neovim-nighty-install neovim-nightly-configure
+
+.PHONY: tree-sitter-install
+tree-sitter-install: ## Install tree-sitter
+	@./scripts/tree-sitter.sh install
+
+.PHONY: tree-sitter
+tree-sitter: tree-sitter-install ## tree-sitter-install

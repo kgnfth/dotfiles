@@ -12,12 +12,23 @@ do_install() {
 		curl
 		dconf-cli
 		htop
+		httpie
+		jq
 		libreadline-dev
 		moreutils
+		ncurses-term
+		python3-dev
+		python3-pip
+		ripgrep
+		shellcheck
 		tree
 		units
+		universal-ctags
 		unrar
 		unzip
+		uuid-runtime
+		wget
+		xclip
 	)
 
 	info "[pkg] Install"
