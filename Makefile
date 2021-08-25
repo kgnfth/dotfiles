@@ -4,7 +4,7 @@
 help: ## Display help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: git pkg bat fzf rvm ruby zsh ohmyzsh colorls ## Install and configure everything (default)
+all: git pkg bat fzf nodejs rvm ruby zsh ohmyzsh colorls ## Install and configure everything (default)
 
 .PHONY: pkg-install
 pkg-install: ## Install Ubuntu packages
@@ -88,3 +88,10 @@ colorls-configure: ## Configure colorls
 
 .PHONY: colorls
 colorls: colorls-install colorls-configure ## colorls-install colorls-configure
+
+.PHONY: nodejs-install
+nodejs-install: ## Install nodejs
+	@./scripts/nodejs.sh install
+
+.PHONY: nodejs
+nodejs: nodejs-install ## nodejs-install
