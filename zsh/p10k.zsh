@@ -48,6 +48,7 @@
 
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    os_icon
     # =========================[ Line #1 ]=========================
     form3_shell             # f3 shell indicator
     vim_shell               # vim shell indicator (:sh)
